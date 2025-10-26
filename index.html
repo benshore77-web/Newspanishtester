@@ -61,18 +61,11 @@
         <div class="card-face" id="cardFront">
           <h3 id="cardPrompt"></h3>
           <p id="cardHint" class="card-hint"></p>
-          <form id="answerForm" class="card-input" autocomplete="off">
-            <label for="answerInput">Type your best translation:</label>
-            <input type="text" id="answerInput" name="answerInput" placeholder="Write it out..." autocomplete="off" />
-            <button type="submit" class="btn btn--secondary" id="submitAnswer">Check Answer</button>
-          </form>
-          <p id="answerFeedback" class="card-feedback" aria-live="polite"></p>
-          <button class="btn btn--ghost" id="revealBtn">Show Translation</button>
+          <button class="btn btn--secondary" id="revealBtn">Show Translation</button>
         </div>
         <div class="card-face card-face--back" id="cardBack" hidden>
           <h3 id="cardAnswer"></h3>
           <p id="cardNotes" class="card-hint"></p>
-          <p id="typedAnswerEcho" class="card-user-answer"></p>
           <div class="ratings">
             <button class="btn btn--again" data-quality="1">Again</button>
             <button class="btn btn--hard" data-quality="3">Hard</button>

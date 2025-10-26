@@ -252,61 +252,6 @@ progress::-moz-progress-bar {
   color: var(--text-secondary);
 }
 
-.card-input {
-  display: grid;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.card-input label {
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  color: var(--accent-yellow);
-}
-
-.card-input input {
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(5, 5, 43, 0.6);
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.card-input input:focus {
-  outline: 2px solid var(--accent-pink);
-  box-shadow: 0 0 0 3px rgba(255, 62, 201, 0.3);
-}
-
-.card-feedback {
-  min-height: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.card-feedback--prompt {
-  color: var(--accent-yellow);
-}
-
-.card-feedback--correct {
-  color: var(--accent-neon);
-}
-
-.card-feedback--incorrect {
-  color: var(--accent-pink);
-}
-
-.card-user-answer {
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
 .ratings {
   display: flex;
   justify-content: center;

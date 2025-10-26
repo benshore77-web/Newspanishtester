@@ -388,29 +388,6 @@ const state = {
   progress: loadProgress()
 };
 
-function normalizeAnswerText(text) {
-  return (text || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/gi, ' ')
-    .trim();
-}
-
-function answersMatch(userAnswer, expectedAnswer) {
-  return normalizeAnswerText(userAnswer) === normalizeAnswerText(expectedAnswer);
-}
-
-function setFeedback(message = '', variant = '') {
-  const feedback = document.getElementById('answerFeedback');
-  if (!feedback) return;
-  feedback.textContent = message;
-  feedback.className = 'card-feedback';
-  if (variant) {
-    feedback.classList.add(`card-feedback--${variant}`);
-  }
-}
-
 function refreshDashboard() {
   const stats = calculateStats(state.progress);
   document.getElementById('statReviewed').textContent = stats.totalReviews;
@@ -502,11 +479,6 @@ function updateRemainingLabel() {
 }
 
 function presentNextCard() {
-  const input = document.getElementById('answerInput');
-  const submitButton = document.getElementById('submitAnswer');
-
-  const typedEcho = document.getElementById('typedAnswerEcho');
-
   if (!state.queue.length) {
     state.currentCard = null;
     document.getElementById('cardPrompt').textContent = 'All caught up!';
@@ -515,17 +487,6 @@ function presentNextCard() {
     document.getElementById('cardBack').setAttribute('hidden', 'true');
     document.getElementById('cardAnswer').textContent = '';
     document.getElementById('cardNotes').innerHTML = '';
-    if (typedEcho) {
-      typedEcho.textContent = '';
-    }
-    if (input) {
-      input.value = '';
-      input.setAttribute('disabled', 'true');
-    }
-    if (submitButton) {
-      submitButton.setAttribute('disabled', 'true');
-    }
-    setFeedback();
     updateRemainingLabel();
     return;
   }
@@ -538,20 +499,8 @@ function presentNextCard() {
   document.getElementById('cardHint').textContent = state.currentCard.hint || '';
   document.getElementById('cardAnswer').textContent = '';
   document.getElementById('cardNotes').innerHTML = '';
-  if (typedEcho) {
-    typedEcho.textContent = '';
-  }
   document.getElementById('revealBtn').removeAttribute('disabled');
   document.getElementById('cardBack').setAttribute('hidden', 'true');
-  if (input) {
-    input.removeAttribute('disabled');
-    input.value = '';
-    setTimeout(() => input.focus(), 0);
-  }
-  if (submitButton) {
-    submitButton.removeAttribute('disabled');
-  }
-  setFeedback();
   updateRemainingLabel();
 }
 
@@ -566,19 +515,6 @@ function revealCard() {
   document.getElementById('cardNotes').innerHTML = noteLines.filter(Boolean).join('<br>');
   document.getElementById('cardBack').removeAttribute('hidden');
   document.getElementById('revealBtn').setAttribute('disabled', 'true');
-  const input = document.getElementById('answerInput');
-  const submitButton = document.getElementById('submitAnswer');
-  const typedEcho = document.getElementById('typedAnswerEcho');
-  const typedValue = input ? input.value.trim() : '';
-  if (input) {
-    input.setAttribute('disabled', 'true');
-  }
-  if (submitButton) {
-    submitButton.setAttribute('disabled', 'true');
-  }
-  if (typedEcho) {
-    typedEcho.textContent = typedValue ? `You wrote: “${typedValue}”.` : '';
-  }
   state.reveal = true;
   updateRemainingLabel();
 }
@@ -600,30 +536,6 @@ function handleRating(event) {
 
   state.currentCard = null;
   presentNextCard();
-}
-
-function handleAnswerSubmit(event) {
-  event.preventDefault();
-  if (!state.currentCard || state.reveal) return;
-
-  const input = document.getElementById('answerInput');
-  if (!input) return;
-  const attempt = input.value.trim();
-
-  if (!attempt) {
-    setFeedback('Type an answer before checking.', 'prompt');
-    input.focus();
-    return;
-  }
-
-  const isMatch = answersMatch(attempt, state.currentCard.answer);
-  if (isMatch) {
-    setFeedback('Rad! That lines up with the target translation.', 'correct');
-  } else {
-    setFeedback('Close! Check the official translation and give it another go soon.', 'incorrect');
-  }
-
-  revealCard();
 }
 
 function startSet(setId) {
@@ -655,16 +567,7 @@ function setupEventListeners() {
     renderTopics();
   });
 
-  document.getElementById('revealBtn').addEventListener('click', () => {
-    if (!state.currentCard || state.reveal) return;
-    setFeedback('Translation shown. Self-score to keep the streak alive.', 'prompt');
-    revealCard();
-  });
-
-  const answerForm = document.getElementById('answerForm');
-  if (answerForm) {
-    answerForm.addEventListener('submit', handleAnswerSubmit);
-  }
+  document.getElementById('revealBtn').addEventListener('click', revealCard);
 
   document.querySelectorAll('.ratings button').forEach((button) => {
     button.addEventListener('click', handleRating);
