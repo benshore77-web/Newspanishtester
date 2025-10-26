@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magnus' Rad Spanish Sessions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="scanlines"></div>
+  <header class="hero">
+    <div class="hero__content">
+      <h1>Magnus' Mega Español Mix</h1>
+      <p>Fire up the boombox and drill Spanish the Beastie Boys way with spaced repetition.</p>
+      <button id="startSession" class="btn btn--primary">Jump into a Set</button>
+    </div>
+    <div class="hero__boom-box" aria-hidden="true"></div>
+  </header>
+
+  <main class="layout">
+    <section class="panel" id="dashboard">
+      <h2>Dashboard</h2>
+      <div class="dashboard__stats">
+        <article class="stat-card">
+          <h3>Cards Reviewed</h3>
+          <p><span id="statReviewed">0</span></p>
+          <small>Total cards Magnus has jammed through.</small>
+        </article>
+        <article class="stat-card">
+          <h3>Due Right Now</h3>
+          <p><span id="statDueNow">0</span></p>
+          <small>Ready for another spin today.</small>
+        </article>
+        <article class="stat-card">
+          <h3>Longest Streak</h3>
+          <p><span id="statStreak">0</span> days</p>
+          <small>Keep the daily rhythm alive!</small>
+        </article>
+      </div>
+      <div class="dashboard__history">
+        <h3>Recent Sessions</h3>
+        <ul id="sessionHistory" class="timeline"></ul>
+      </div>
+    </section>
+
+    <section class="panel" id="topics">
+      <h2>Choose Your Set</h2>
+      <p>Each set mixes words and phrases so Magnus can build full-on sentences. New sets can be added anytime.</p>
+      <div id="topicsGrid" class="topics-grid"></div>
+    </section>
+
+    <section class="panel panel--study" id="study" hidden>
+      <div class="study__header">
+        <button class="btn btn--ghost" id="backToTopics">← Back to Topics</button>
+        <h2 id="studyTitle">Study Session</h2>
+      </div>
+      <div class="study__card" id="studyCard">
+        <div class="card-face" id="cardFront">
+          <h3 id="cardPrompt"></h3>
+          <p id="cardHint" class="card-hint"></p>
+          <form id="answerForm" class="card-input" autocomplete="off">
+            <label for="answerInput">Type your best translation:</label>
+            <input type="text" id="answerInput" name="answerInput" placeholder="Write it out..." autocomplete="off" />
+            <button type="submit" class="btn btn--secondary" id="submitAnswer">Check Answer</button>
+          </form>
+          <p id="answerFeedback" class="card-feedback" aria-live="polite"></p>
+          <button class="btn btn--ghost" id="revealBtn">Show Translation</button>
+        </div>
+        <div class="card-face card-face--back" id="cardBack" hidden>
+          <h3 id="cardAnswer"></h3>
+          <p id="cardNotes" class="card-hint"></p>
+          <p id="typedAnswerEcho" class="card-user-answer"></p>
+          <div class="ratings">
+            <button class="btn btn--again" data-quality="1">Again</button>
+            <button class="btn btn--hard" data-quality="3">Hard</button>
+            <button class="btn btn--good" data-quality="4">Good</button>
+            <button class="btn btn--easy" data-quality="5">Easy</button>
+          </div>
+        </div>
+      </div>
+      <div class="study__footer">
+        <p id="remainingCount">0 cards remaining in this round.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built for Magnus with love, neon lights, and science-backed spaced repetition.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
